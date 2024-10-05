@@ -5,7 +5,7 @@ import RideCard from "@/components/RideCard";
 import { icons, images } from "@/constants";
 import { useFetch } from "@/lib/fetch";
 import { useLocationStore } from "@/store";
-import { useUser } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -23,6 +23,7 @@ import React from "react";
 export default function Home() {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const { user } = useUser();
+  const { signOut } = useAuth();
   const { data: recentRides, loading } = useFetch<Ride[]>(
     `/(api)/ride/${user?.id}`
   );
@@ -44,10 +45,8 @@ export default function Home() {
       });
 
       setUserLocation({
-        // latitude: location.coords?.latitude!,
-        // longitude: location.coords?.longitude!,
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: location.coords?.latitude!,
+        longitude: location.coords?.longitude!,
         address: `${address[0].name}, ${address[0].region}`,
       });
     };
@@ -55,7 +54,10 @@ export default function Home() {
     requestLocation();
   }, []);
 
-  const handleSignOut = () => {};
+  const handleSignOut = () => {
+    signOut();
+    router.replace("/(auth)/sign-in");
+  };
 
   const handleDestinationPress = (location: {
     latitude: number;
