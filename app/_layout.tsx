@@ -20,7 +20,7 @@ NativeWindStyleSheet.setOutput({
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-LogBox.ignoreLogs(["Warning: ..."]);
+LogBox.ignoreLogs(["Clerk:"]);
 
 export default function RootLayout() {
   const [loaded] = useFonts({
