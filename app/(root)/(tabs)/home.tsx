@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 
 const recentRides = [
   {
@@ -158,7 +159,15 @@ export default function Home() {
 
   const handleSignOut = () => {};
 
-  const handleDestinationPress = () => {};
+  const handleDestinationPress = (location: {
+    latitude: number;
+    longitude: number;
+    address: string;
+  }) => {
+    setDestinationLocation(location);
+
+    router.push("/(root)/find-ride");
+  };
 
   return (
     <SafeAreaView className="bg-general-500">
@@ -220,6 +229,10 @@ export default function Home() {
                 <Map />
               </View>
             </>
+            {/* // TODO: Remove the below touchable opacity */}
+            <TouchableOpacity onPress={() => router.push("/(root)/find-ride")}>
+              <Text>Go to rides</Text>
+            </TouchableOpacity>
 
             <Text className="text-xl font-JakartaBold mt-5 mb-3">
               Recent Rides
